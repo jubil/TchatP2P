@@ -35,6 +35,8 @@ public class Window extends JFrame {
 		mnFile.add(mntmSeConnecter);
 		
 		JMenuItem mntmDisconnect = new JMenuItem("Disconnect");
+		//TODO Close Session
+		mntmSeConnecter.addActionListener(new Redirect(new Connection()));
 		mnFile.add(mntmDisconnect);
 		
 		JSeparator separator = new JSeparator();
