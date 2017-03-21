@@ -1,22 +1,21 @@
 package main;
 
 import gui.Window;
-
-import java.awt.EventQueue;
+import network.Server;
 
 public class Main {
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Window frame = new Window();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public static final int PORT = 25566;
 	
+	public static void main(String[] args) {
+
+		//Lunch local Server
+		Thread server = new Thread(new Server(PORT));
+		server.start();
+		
+		//Open GUI		
+		Window frame = new Window();
+
+	}
+
 }
