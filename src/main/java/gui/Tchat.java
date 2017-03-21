@@ -1,23 +1,31 @@
 package gui;
 
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
+
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
+import network.Message;
+import main.Main;
+
 public class Tchat extends JPanel {
 	private JTextField textField;
 
-	/**
-	 * Create the panel.
-	 */
 	public Tchat() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
@@ -62,6 +70,11 @@ public class Tchat extends JPanel {
 		gbc_btnSend.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSend.gridx = 1;
 		gbc_btnSend.gridy = 2;
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.server.sendMessage(new Message(Main.login, textField.getText()));
+			}
+		});
 		add(btnSend, gbc_btnSend);
 
 	}
