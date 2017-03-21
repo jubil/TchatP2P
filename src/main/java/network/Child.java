@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import main.Main;
+
 public class Child implements Runnable {
 	
 	private Socket s;
@@ -16,7 +18,6 @@ public class Child implements Runnable {
 
 	public void run() {
 		System.out.println("New Child : " + s.getInetAddress() + ":" +s.getPort());
-		// TODO TEST
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			while (true) {
@@ -25,6 +26,7 @@ public class Child implements Runnable {
 				System.out.println(msg);
 
 				//TODO Forward
+				Main.server.sendMessage(msg);
 			}
 
 		} catch (IOException e) {
@@ -32,7 +34,6 @@ public class Child implements Runnable {
 		}
 	}
 
-	//TODO TEST
 	public void sendMessage(String str) {
 		try {
 			PrintWriter out = new PrintWriter(s.getOutputStream(),true);
