@@ -17,8 +17,7 @@ public class Child implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("New Child : " + s.getInetAddress() + ":"
-				+ s.getPort());
+		System.out.println("New Child : " + s.getInetAddress() + ":" + s.getPort());
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			while (true) {

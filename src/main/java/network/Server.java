@@ -31,6 +31,9 @@ public class Server implements Runnable {
 					children.add(c);
 					Thread t = new Thread(c);
 					t.start();
+					for(Message msg : messages){
+						c.sendMessage(msg);
+					}
 			}
 		
 		} catch (IOException e1) {
