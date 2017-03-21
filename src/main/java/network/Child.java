@@ -9,7 +9,7 @@ import java.net.Socket;
 import main.Main;
 
 public class Child implements Runnable {
-	
+
 	private Socket s;
 
 	public Child(Socket s) {
@@ -17,27 +17,44 @@ public class Child implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("New Child : " + s.getInetAddress() + ":" +s.getPort());
+		System.out.println("New Child : " + s.getInetAddress() + ":"
+				+ s.getPort());
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			while (true) {
 				// Waiting for message
-				String msg = br.readLine();
-				System.out.println(msg);
+				String str = br.readLine();
 
-				//TODO Forward
+				// Construct Message, TODO Check tab length
+				String[] tab = str.split("&");
+				Message msg = new Message(Long.valueOf(tab[0]), tab[1], tab[2]);
+
+				// TODO Forward
 				Main.server.sendMessage(msg);
+
 			}
 
 		} catch (IOException e) {
-			System.out.println("Connection perdu avec le serveur");
+			System.out.println("Connection lost with " + s.getInetAddress() + ":" + s.getPort());
+		}
+	}
+	
+	public void close(){
+		try {
+			s.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void sendMessage(String str) {
+	public void sendMessage(Message msg) {
 		try {
-			PrintWriter out = new PrintWriter(s.getOutputStream(),true);
-			out.println(str);
+			PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+
+			// TODO Message Format
+			out.println(msg.getDate() + "&" + msg.getLogin() + "&" + msg.getText());
+
+			// Validate
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
