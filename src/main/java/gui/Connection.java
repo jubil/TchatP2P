@@ -4,6 +4,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,10 +16,15 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-public class Connection extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
+import main.Main;
+import network.Child;
 
+public class Connection extends JPanel {
+	private JTextField textFieldLogin;
+	private JTextField textFieldIp;
+
+	private JSpinner spinner;
+	
 	public Connection() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -42,14 +50,28 @@ public class Connection extends JPanel {
 		gbc_lblYourName.gridy = 1;
 		add(lblYourName, gbc_lblYourName);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.BOTH;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		textFieldLogin = new JTextField();
+		textFieldLogin.setText(Main.login);
+		GridBagConstraints gbc_txtAnonymous = new GridBagConstraints();
+		gbc_txtAnonymous.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAnonymous.fill = GridBagConstraints.BOTH;
+		gbc_txtAnonymous.gridx = 1;
+		gbc_txtAnonymous.gridy = 1;
+		add(textFieldLogin, gbc_txtAnonymous);
+		textFieldLogin.setColumns(10);
+		
+		JButton btnChange = new JButton("Change");
+		GridBagConstraints gbc_btnChange = new GridBagConstraints();
+		gbc_btnChange.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnChange.insets = new Insets(0, 0, 5, 5);
+		gbc_btnChange.gridx = 2;
+		gbc_btnChange.gridy = 1;
+		btnChange.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.login = textFieldLogin.getText();
+			}
+		});
+		add(btnChange, gbc_btnChange);
 		
 		JLabel lblIp = new JLabel("  IP : ");
 		lblIp.setHorizontalAlignment(SwingConstants.LEFT);
@@ -60,14 +82,14 @@ public class Connection extends JPanel {
 		gbc_lblIp.gridy = 2;
 		add(lblIp, gbc_lblIp);
 		
-		textField_1 = new JTextField();
+		textFieldIp = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.BOTH;
 		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		add(textFieldIp, gbc_textField_1);
+		textFieldIp.setColumns(10);
 		
 		JLabel lblPort = new JLabel("  Port : ");
 		GridBagConstraints gbc_lblPort = new GridBagConstraints();
@@ -77,7 +99,7 @@ public class Connection extends JPanel {
 		gbc_lblPort.gridy = 3;
 		add(lblPort, gbc_lblPort);
 		
-		JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(25566, 1, 65535, 1));
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
 		gbc_spinner.fill = GridBagConstraints.BOTH;
@@ -88,10 +110,20 @@ public class Connection extends JPanel {
 		
 		JButton btnSeConnecter = new JButton("Connect");
 		GridBagConstraints gbc_btnSeConnecter = new GridBagConstraints();
-		gbc_btnSeConnecter.anchor = GridBagConstraints.EAST;
-		gbc_btnSeConnecter.insets = new Insets(0, 0, 0, 5);
-		gbc_btnSeConnecter.gridx = 1;
-		gbc_btnSeConnecter.gridy = 4;
+		gbc_btnSeConnecter.fill = GridBagConstraints.BOTH;
+		gbc_btnSeConnecter.gridheight = 2;
+		gbc_btnSeConnecter.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSeConnecter.gridx = 2;
+		gbc_btnSeConnecter.gridy = 2;
+		btnSeConnecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.server.addParent(new Child(new Socket(textFieldIp.getText(), (Integer) spinner.getValue())));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		add(btnSeConnecter, gbc_btnSeConnecter);
 
 		

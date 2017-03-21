@@ -6,6 +6,8 @@ import network.Server;
 public class Main {
 
 	public static final int PORT = 25566;
+	public static String login = "Anonymous";
+	
 	public static Server server;
 	
 	public static void main(String[] args) {
