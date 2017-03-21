@@ -61,10 +61,14 @@ public class Server implements Runnable {
 	}
 	
 	public void showMessages(){
-		System.out.println("---------------------");
+		System.out.println(getMessages());
+	}
+
+	public String getMessages() {
+		String str = "";
 		for(Message m : messages){
-			System.out.println(m.getDate() + " " + m.getLogin() + " " + m.getText());
+			str += ("<" + m.getLogin() + "> : " + m.getText()+ "\n" );
 		}
-		System.out.println("---------------------");
+		return str;
 	}
 }

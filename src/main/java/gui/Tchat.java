@@ -25,13 +25,14 @@ import main.Main;
 
 public class Tchat extends JPanel {
 	private JTextField textField;
-
+	private JTextArea textArea;
+	
 	public Tchat() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblGlobalRoom = new JLabel("Global Room");
@@ -53,12 +54,13 @@ public class Tchat extends JPanel {
 		gbc_scrollPane.gridy = 1;
 		add(scrollPane, gbc_scrollPane);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
+		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.BOTH;
 		gbc_textField.gridx = 0;
 		gbc_textField.gridy = 2;
@@ -67,7 +69,6 @@ public class Tchat extends JPanel {
 		
 		JButton btnSend = new JButton("Send");
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
-		gbc_btnSend.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSend.gridx = 1;
 		gbc_btnSend.gridy = 2;
 		btnSend.addActionListener(new ActionListener() {
@@ -77,6 +78,25 @@ public class Tchat extends JPanel {
 		});
 		add(btnSend, gbc_btnSend);
 
+		//Refresh
+		Thread refresh = new Thread(new Runnable() {
+			public void run() {
+				while(true){
+					refresh();
+					try {
+						Thread.sleep(1000);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		refresh.start();
+	}
+	
+	private void refresh() {
+		textArea.setText(Main.server.getMessages());
+		validate();				
 	}
 
 }
