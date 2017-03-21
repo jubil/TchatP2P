@@ -10,12 +10,10 @@ public class Server implements Runnable {
 	private int port;
 	
 	private ArrayList<Child> children;
-	private ArrayList<Parent> parents;
 	
 	public Server(int port) {
 		this.port = port;
 		children = new ArrayList<Child>();
-		parents = new ArrayList<Parent>();
 	}
 
 	public void run() {
@@ -38,13 +36,15 @@ public class Server implements Runnable {
 		}	
 	}
 	
-	public void addParent(Parent p){
-		Thread t = new Thread(p);
-		parents.add(p);
+	public void addParent(Child parent){
+		Thread t = new Thread(parent);
+		t.start();
+		children.add(parent);
 	}
 	
-	//TODO
-	public void sendMessage(){
-		
+	public void sendMessage(String str){
+		for(Child c : children){
+			c.sendMessage(str);
+		}
 	}
 }

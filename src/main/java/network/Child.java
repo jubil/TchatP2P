@@ -2,16 +2,22 @@ package network;
 
 import java.net.Socket;
 
-public class Child extends Node implements Runnable {
+public class Child implements Runnable {
 	
+	private Socket s;
+
 	public Child(Socket s) {
-		super(s);
+		this.s = s;
 	}
 
 	public void run() {
 		System.out.println("New Child : " + s.getInetAddress() + ":" +s.getPort());
-		// TODO Auto-generated method stub
+		// TODO client listening
+	}
 
+	//TODO sendMessage
+	public void sendMessage(String str) {
+		
 	}
 
 }
