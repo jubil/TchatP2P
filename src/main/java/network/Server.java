@@ -15,6 +15,7 @@ public class Server implements Runnable {
 	public Server(int port) {
 		this.port = port;
 		children = new ArrayList<Child>();
+		parents = new ArrayList<Parent>();
 	}
 
 	public void run() {

@@ -10,8 +10,9 @@ public class Main {
 	public static void main(String[] args) {
 
 		//Lunch local Server
-		Thread server = new Thread(new Server(PORT));
-		server.start();
+		Server server = new Server(PORT);
+		Thread t = new Thread(server);
+		t.start();
 		
 		//Open GUI		
 		Window frame = new Window();
